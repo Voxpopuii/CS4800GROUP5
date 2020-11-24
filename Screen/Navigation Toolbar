@@ -1,0 +1,38 @@
+#Author John Miego  
+#Navigation Toolbar for Badge Screens
+NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Green Badge'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+
+                        OneLineIconListItem:
+                            text: "Badges"
+                            IconLeftWidget:
+                                icon: "shield"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
