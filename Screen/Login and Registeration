@@ -1,0 +1,69 @@
+# Author John Miego
+#Login and Registertation screens
+
+#Functional Login and registeration screen GUI. It will take input from the user needs to be connected to database.
+
+
+
+<RegisterScreen>:
+    name: "register"
+    MDToolbar:
+        title: "Register"
+        elevation: 10
+        pos_hint: {"top":1}
+    MDTextField:
+        hint_text: "Email"
+        helper_text: "Please enter your email address"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.6}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Username"
+        helper_text: "Please enter your username"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.5}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Password"
+        helper_text: "Please enter your password"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.4}
+        size_hint_x: None
+        width: 150
+    MDRectangleFlatButton:
+        text: "Create Account"
+        pos_hint: {"center_x":0.5, "center_y": 0.2}
+    MDIconButton:
+        icon: "arrow-left"
+        on_press: root.manager.current = "home"
+
+<LoginScreen>:
+    name: "login"
+    MDToolbar:
+        title: "Login"
+        elevation: 10
+        pos_hint: {"top":1}
+    MDTextField:
+        hint_text: "Username"
+        helper_text: "Please enter your username"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.5}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Password"
+        helper_text: "Please enter your password"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.4}
+        size_hint_x: None
+        width: 150
+    MDRectangleFlatButton:
+        text: "Login"
+        pos_hint: {"center_x":0.5, "center_y": 0.2}
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y": 0.1}
+        user_font_size: "25sp"
+        on_press: root.manager.current = "home"
