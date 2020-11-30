@@ -1,0 +1,55 @@
+__author__ = "Jose Lucar"
+
+from pymongo import MongoClient
+from NewBackEnd.my_library import credentials_match
+
+client = MongoClient("mongodb+srv://enter_your_db_username:password@cluster0.jbcth.mongodb.net"
+                     "/Covid_19_Tracking_App?retryWrites=true&w=majority")
+
+db = client.get_database("Covid_19_Tracking_App")
+
+usernameRecords = db.UsersDb  # imports the list of all the users of the app
+passwordRecords = db.UsersDb  # imports the list of all the users of the app
+managerList = db.UserManagerDb  # imports the list of managers user of the app
+employeeList = db.UserEmployeeDb  # imports the list of employee users in the app
+
+"""
+To run the class Login, you sho should import the function credentials_match
+from my_library.py. If you can't import that function, you will need to uncomment the 
+following code:
+"""
+
+"""
+# verifies the username entered matches the password for the username
+def credentials_match(username, password):
+    if usernameRecords.find_one({'username': username, 'password': password}):
+        return True
+    else:
+        return False
+"""
+"""
+The class below is in charge of login a user into the app after the user click on the login
+button from the login GUI. The class first check if the username and password matches the
+username and password for the same user in the database. If the username and password don't
+match, the class would return and print an error message. On the other hand, the class should be able to take
+the user to the home employee GUI(main screen after login-in the app) if the username and password 
+entered belongs to an employee user. If the username or password entered belong to a manager, the class
+should be able to recognize these credentials and take the user to the home GUI  for a manager user.
+"""
+
+
+class Login:
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+        if not credentials_match(self.username, self.password):
+            print("username or password do not match our records")
+
+        else:
+            user_type = list(usernameRecords.find_one({"username": self.username}).values())[3]
+            if user_type:
+                return  # redirect to manager home GUI
+            else:
+                return  # return redirect to employee home GUI
