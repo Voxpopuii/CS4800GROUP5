@@ -1,0 +1,107 @@
+__author__ = "Jose Lucar Garrido"
+
+"""pip install pymongo"""
+"""pip install pymongo[srv]""
+""pip install pythondns"""
+
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://enter_your_db_username:password@cluster0.jbcth.mongodb.net/Covid_19_Tracking_App?retryWrites=true&w=majority")
+
+
+db = client.get_database("Covid_19_Tracking_App")
+
+usernameRecords = db.UsersDb #imports the list of all the users of the app
+passwordRecords = db.UsersDb #imports the list of all the users of the app
+managerList = db.UserManagerDb #imports the list of managers user of the app
+employeeList = db.UserEmployeeDb #imports the list of employee users in the app
+
+
+#verifies the username entered matches the password for the username
+def credentialMatch(username, password):
+    if usernameRecords.find_one({'username': username, 'password': password}):
+        return True
+    else:
+        return False
+
+#add a new user to the user database and the manager user database
+def add_new_manager_user(username, password):
+    string_username = str(username)
+    string_password = str(password)
+    new_user = {
+        "username": string_username,
+        "password": string_password,
+        "user_manager": True
+    }
+    usernameRecords.insert_one(new_user)
+    managerList.insert_one(new_user)
+
+#add a new employee user in the the user database and in the employee user database
+#use it only after checkCredentials(username, password)
+def add_new_employee_user(username, password):
+    string_username = str(username)
+    string_password = str(password)
+
+    new_user = {
+        "username": string_username,
+        "password": string_password,
+        "user_manager": False
+    }
+    usernameRecords.insert_one(new_user)
+    employeeList.insert_one(new_user)
+
+def checkCredentials(username,password): #username and password must be a string type before passing
+    checkUsername = usernameRecords.count_documents({'username' : username})
+    checkPassword = usernameRecords.count_documents({'password' : password})
+
+    if checkUsername == 1:
+        print("This username already exist")
+        return True
+    elif checkPassword == 1:
+        print("This password already exist")
+        return True
+    else:
+        return False
+
+"""
+The function below creates a new user in the system. There would be a separate file with a class for create user.
+This is an optional function in case kivy only needs to call a function to create user and not another new class.
+In addition, the 3 arguments this function takes are: username and password which are strings the user inputs in 
+the input box in the register GUI. the 3rd argument is manager which is a boolean automatically set to False but if 
+specified if the user is a manager when registering a new user this argument should be changed automatically to True
+by saving a variable called manager = True before calling this function """
+
+def create_user(username, password, manager=False):
+    if checkCredentials(username, password) == True:
+        return
+    elif manager == True:
+        add_new_manager_user(username, password)
+        print("Successful account created")
+        return # -----redirect to login page-----##
+    else:
+        print("Successful account created")
+        add_new_employee_user(username, password)
+
+
+"""
+The function below is used to login a user into the app. First it checks the user and password entered matches the a username 
+and password for the same user in the database. If username and password matches then the app should be able to login the 
+user into the system. The function would automatically know if the user is a employee or a manager user by reading into
+this information inside the database specific for the user. Note: when a new user is created, the database saves the user
+information in a dictionary that contains the user's username, password and account type. Ex: {'username': 'joselucar', 
+'password':'test', 'manager?': True}
+"""
+def log_in(self.username, self.password):
+
+    if credentialMatch(self.username,self.password) == False:
+        print("username or password do not match our records")
+        return
+    else:
+        user_type = list(usernameRecords.find_one({"username": self.username}).values())[3]
+        if user_type == True:
+            return # redirect to manager home GUI
+        else:
+            return  # redirect to employee home GUI """
+            
+            
+
