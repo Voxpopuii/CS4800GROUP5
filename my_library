@@ -112,4 +112,28 @@ def log_in(self.username, self.password):
             return  # redirect to employee home GUI """
             
             
+#pulls out all the employee records for the username of the manager user from the EmployeeRecordsDb collection.
+def employee_record(username):  #username of manager
+    #return all the values that matches the username inside the collection EmployeeRosterDb.
+    return list(rosterRecords.find({'username':username}))
 
+
+#send badge to manager_username entered
+def send_badge(username, manager_username, date): #username: String, manager_username:String, date:date.
+    #check manager_username exist in the list of UserManagerDb
+    if managerList.find_one({'username':manager_username}):
+        #go into HealthRecordsDb for the username of the user and pull out the badge color.
+        badge_color = list(healthRecordsList.find_one({'username':username, 'date':date}).values())[2]
+        #input the new name, badge_color and date for the username into the EmployeeRosterDb collection and set it up like:
+        #{'username':manager_username,'employee_username':username,'badge_color': badge_color, 'date':date}
+        new_roster_record: {
+                            'username':manager_username,
+                            'employee_username':username,
+                            'badge_color': badge_color,
+                            'date':date
+                            }
+        rosterRecords.insert_one(new_roster_record)
+        return "badge sent succesfully"
+    else:
+        return "manager username entered not found"
+            
