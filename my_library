@@ -1,14 +1,22 @@
 __author__ = "Jose Lucar Garrido"
 
+""" 
+This is a library of functions that would be needed to perform the requiered tasks
+for th backend classes. this functions would be imported into login, create user and 
+send badge class. I'm writing these function here so I can re use them when need it inside 
+different classes
+"""
+
 """pip install pymongo"""
 """pip install pymongo[srv]""
 ""pip install pythondns"""
 
 from pymongo import MongoClient
 
+# client is the conection to the project in the database.
 client = MongoClient("mongodb+srv://enter_your_db_username:password@cluster0.jbcth.mongodb.net/Covid_19_Tracking_App?retryWrites=true&w=majority")
 
-
+# db is conecting to the database inside the project in mongodb.
 db = client.get_database("Covid_19_Tracking_App")
 
 usernameRecords = db.UsersDb #imports the list of all the users of the app
@@ -18,7 +26,7 @@ employeeList = db.UserEmployeeDb #imports the list of employee users in the app
 
 
 #verifies the username entered matches the password for the username
-def credentialMatch(username, password):
+def credentials_match(username, password):
     if usernameRecords.find_one({'username': username, 'password': password}):
         return True
     else:
@@ -26,11 +34,10 @@ def credentialMatch(username, password):
 
 #add a new user to the user database and the manager user database
 def add_new_manager_user(username, password):
-    string_username = str(username)
-    string_password = str(password)
+
     new_user = {
-        "username": string_username,
-        "password": string_password,
+        "username": username,
+        "password": password,
         "user_manager": True
     }
     usernameRecords.insert_one(new_user)
@@ -39,18 +46,18 @@ def add_new_manager_user(username, password):
 #add a new employee user in the the user database and in the employee user database
 #use it only after checkCredentials(username, password)
 def add_new_employee_user(username, password):
-    string_username = str(username)
-    string_password = str(password)
 
     new_user = {
-        "username": string_username,
-        "password": string_password,
+        "username": username,
+        "password": password,
         "user_manager": False
     }
     usernameRecords.insert_one(new_user)
     employeeList.insert_one(new_user)
 
-def checkCredentials(username,password): #username and password must be a string type before passing
+
+# check credential entered do not already exist in the database.
+def check_credentials(username,password): #username and password must be a string type before passing
     checkUsername = usernameRecords.count_documents({'username' : username})
     checkPassword = usernameRecords.count_documents({'password' : password})
 
@@ -72,15 +79,16 @@ specified if the user is a manager when registering a new user this argument sho
 by saving a variable called manager = True before calling this function """
 
 def create_user(username, password, manager=False):
-    if checkCredentials(username, password) == True:
+    if check_credentials(username, password):
         return
-    elif manager == True:
+    elif manager:
         add_new_manager_user(username, password)
         print("Successful account created")
-        return # -----redirect to login page-----##
+        return  # -----redirect to login page-----##
     else:
-        print("Successful account created")
         add_new_employee_user(username, password)
+        print("Successful account created")
+        return   # -----redirect to login page-----##
 
 
 """
@@ -93,12 +101,12 @@ information in a dictionary that contains the user's username, password and acco
 """
 def log_in(self.username, self.password):
 
-    if credentialMatch(self.username,self.password) == False:
+    if not credentials_match(self.username, self.password):
         print("username or password do not match our records")
         return
     else:
         user_type = list(usernameRecords.find_one({"username": self.username}).values())[3]
-        if user_type == True:
+        if user_type:
             return # redirect to manager home GUI
         else:
             return  # redirect to employee home GUI """
