@@ -1,3 +1,6 @@
+#Author: Miranda Humphreys
+#Peer Reviewer: John Miego
+
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivy.lang import Builder
