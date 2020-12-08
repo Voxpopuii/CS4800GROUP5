@@ -1,5 +1,6 @@
 #Author: John Miego
-#Date: 12/2/2020
+#Date: 12/6/2020
+#Peer Reviewed By: Miranda Humphreys
 #Completed Code for the UI
 #Added navigation to the majority of the screen instances
 #Added The three different badges screens
