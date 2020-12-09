@@ -1,5 +1,5 @@
 #Author: Miranda Humphreys
-#Modified by: John Clarke Miego
+#Pair Reviewed by: John Clarke Miego
 #Welcome, Login, Register Page
 #Initial code was written by Miranda, but after the demo we decided it was time to do pair programming since we didn't
 #have everything we wanted implemented and we were able to come up with more functionality for the welcome screen
