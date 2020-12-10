@@ -1,0 +1,184 @@
+<RegisterScreen>:
+    name: "register"
+    MDToolbar:
+        title: "Register"
+        elevation: 10
+        pos_hint: {"top":1}
+    MDTextField:
+        hint_text: "Email"
+        helper_text: "Please enter your email address"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.6}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Username"
+        helper_text: "Please enter your username"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.5}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Password"
+        helper_text: "Please enter your password"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.4}
+        size_hint_x: None
+        password: "True"
+        width: 150
+    MDRectangleFlatButton:
+        text: "Create Account"
+        pos_hint: {"center_x":0.5, "center_y": 0.2}
+        on_release: self.show_data
+    MDIconButton:
+        icon: "arrow-left"
+        on_press: root.manager.current = "home"
+    MDTextField:
+        hint_text: "Account Type"
+        helper_text: "Manager or Employee"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.3}
+        size_hint_x: None
+        width: 150
+
+<AccountTypeScreen>:
+    name: "account"
+    MDRectangleFlatButton:
+        text: "Manager"
+        pos_hint: {"center_x":0.5, "center_y": 0.5}
+        on_press:
+            root.manager.current = 'register'
+    MDRectangleFlatButton:
+        text: "Employee"
+        pos_hint: {"center_x":0.5, "center_y": 0.4}
+        on_press:
+            root.manager.current = 'register'
+    
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Account Type'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Calendar"
+                            IconLeftWidget:
+                                icon: "calendar-week"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout"
+                                
+<LoginScreen>:
+    name: "login"
+    MDToolbar:
+        title: "Login"
+        elevation: 10
+        pos_hint: {"top":1}
+    MDTextField:
+        hint_text: "Username"
+        helper_text: "Forgot Username"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.5}
+        size_hint_x: None
+        width: 150
+    MDTextField:
+        hint_text: "Password"
+        helper_text: "Forgot Password"
+        helper_text_mode: "on_focus"
+        pos_hint: {"center_x":0.5, "center_y": 0.4}
+        size_hint_x: None
+        password: "True"
+        width: 150
+    MDRectangleFlatButton:
+        text: "Login"
+        pos_hint: {"center_x":0.5, "center_y": 0.2}
+        on_press:
+            root.manager.current = 'startsurvey'
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y": 0.1}
+        user_font_size: "25sp"
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'home'
+
+<StartSurveyScreen>:
+    name: "startsurvey"
+    MDRectangleFlatButton:
+        text: "              Start Survey                "
+        pos_hint: {"center_x": .5, "center_y": .6}
+        on_press: 
+            root.manager.current = 'Question1'
+              
+    MDRectangleFlatButton:
+        text: "       California Guidelines       "
+        pos_hint: {"center_x": .5, "center_y": .5}
+        on_release: webbrowser.open("https://covid19.ca.gov/")
+        
+    MDRectangleFlatButton:
+        text: "CDC Quarantine Guidelines"
+        pos_hint: {"center_x": .5, "center_y": .4}
+        on_release: webbrowser.open("https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/quarantine.html")  
+        
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Guidelines'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+                    
+                    
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing Info"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout"
