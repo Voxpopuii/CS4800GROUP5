@@ -20,6 +20,7 @@ ScreenManager:
     RegisterScreen:
     AccountTypeScreen:
     LoginScreen:
+    StartSurveyScreen:
     Question1Screen:
     Question2Screen:
     Question3Screen:
@@ -115,6 +116,7 @@ ScreenManager:
         helper_text_mode: "on_focus"
         pos_hint: {"center_x":0.5, "center_y": 0.4}
         size_hint_x: None
+        password: "True"
         width: 150
     MDRectangleFlatButton:
         text: "Create Account"
@@ -198,10 +200,13 @@ ScreenManager:
         helper_text_mode: "on_focus"
         pos_hint: {"center_x":0.5, "center_y": 0.4}
         size_hint_x: None
+        password: "True"
         width: 150
     MDRectangleFlatButton:
         text: "Login"
         pos_hint: {"center_x":0.5, "center_y": 0.2}
+        on_press:
+            root.manager.current = 'startsurvey'
     MDIconButton:
         icon: "arrow-left"
         pos_hint: {"center_x":0.1, "center_y": 0.1}
@@ -209,8 +214,67 @@ ScreenManager:
         on_press:
             root.manager.transition.direction = 'left'
             root.manager.current = 'home'
-        
 
+<StartSurveyScreen>:
+    name: "startsurvey"
+    MDRectangleFlatButton:
+        text: "              Start Survey                "
+        pos_hint: {"center_x": .5, "center_y": .6}
+        on_press: 
+            root.manager.current = 'Question1'
+              
+    MDRectangleFlatButton:
+        text: "       California Guidelines       "
+        pos_hint: {"center_x": .5, "center_y": .5}
+        on_release: webbrowser.open("https://covid19.ca.gov/")
+        
+    MDRectangleFlatButton:
+        text: "CDC Quarantine Guidelines"
+        pos_hint: {"center_x": .5, "center_y": .4}
+        on_release: webbrowser.open("https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/quarantine.html")  
+        
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Guidelines'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+                    
+                    
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing Info"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout"
+    
 <Question1Screen>:
     name: "Question1"
     MDToolbar:
@@ -639,6 +703,10 @@ class LoginScreen(Screen):
     pass
 
 
+class StartSurveyScreen(Screen):
+    pass
+
+
 class Question1Screen(Screen):
     pass
 
@@ -683,6 +751,7 @@ sm = ScreenManager()
 sm.add_widget(RegisterScreen(name="register"))
 sm.add_widget(LoginScreen(name="login"))
 sm.add_widget(HomeScreen(name="home"))
+sm.add_widget(StartSurveyScreen(name="startsurvey"))
 sm.add_widget(Question1Screen(name="Question1"))
 sm.add_widget(Question2Screen(name="Question2"))
 sm.add_widget(Question3Screen(name="Question3"))
@@ -705,5 +774,3 @@ class COVIDApp(MDApp):
 
 
 COVIDApp().run()
-
-
