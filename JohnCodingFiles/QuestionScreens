@@ -1,0 +1,130 @@
+<Question1Screen>:
+    name: "Question1"
+    MDToolbar:
+        title: 'Question 1'
+        elevation:10
+        pos_hint: {"top": 1}
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'home'
+    MDLabel:
+        text: "Have you been exposed to COVID-19 in the last 14 days?"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: (66 / 255, 158 / 255, 157 / 255, 1)
+        font_style: "Body1"
+        font_size: "15sp"
+    MDRectangleFlatButton
+        text: "Yes"
+        pos_hint: {"center_x":0.3,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question2'
+    MDRectangleFlatButton
+        text: "No"
+        pos_hint: {"center_x":0.7,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question2'
+    
+<Question2Screen>:
+    name: "Question2"
+    MDToolbar:
+        title: 'Question 2'
+        elevation:10
+        pos_hint: {"top": 1}
+
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question1'
+    MDLabel:
+        text: "Have you had any of the following Symptoms(1): Dry Cough, Sore Throat, or Fever?"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: (66 / 255, 158 / 255, 157 / 255, 1)
+        font_style: "Body1"
+        font_size: "15sp"
+    MDRectangleFlatButton
+        text: "Yes"
+        pos_hint: {"center_x":0.3,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question3'
+    MDRectangleFlatButton
+        text: "No"
+        pos_hint: {"center_x":0.7,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question3'
+
+<Question3Screen>:
+    name: "Question3"
+    MDToolbar:
+        title: 'Question 3'
+        elevation:10
+        pos_hint: {"top": 1}
+        
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question2'
+    MDLabel:
+        text: "Have you had any of the following Symptoms(2): Shortness of breath, trouble breathing, loss sense of smell?"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: (66 / 255, 158 / 255, 157 / 255, 1)
+        font_style: "Body1"
+        font_size: "15sp"
+    MDRectangleFlatButton
+        text: "Yes"
+        pos_hint: {"center_x":0.3,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question4'
+    MDRectangleFlatButton
+        text: "No"
+        pos_hint: {"center_x":0.7,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question4'
+
+
+<Question4Screen>:
+    name: "Question4"
+    MDToolbar:
+        title: 'Question 4'
+        elevation:10
+        pos_hint: {"top": 1}
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_x":0.1, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'Question3'
+    MDLabel:
+        text: "Have you tested for COVID-19 in the last 14 days?"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: (66 / 255, 158 / 255, 157 / 255, 1)
+        font_style: "Body1"
+        font_size: "15sp"
+    MDRectangleFlatButton
+        text: "Yes"
+        pos_hint: {"center_x":0.3,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'info'
+    MDRectangleFlatButton
+        text: "No"
+        pos_hint: {"center_x":0.7,"center_y":0.4}
+        on_press: 
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'info'
