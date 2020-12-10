@@ -1,0 +1,218 @@
+<GreenBadgeScreen>:
+    name: "green"
+    MDLabel:
+        text: "You are cleared to go back to work"
+        pos_hint: {"center_x":0.6, "center_y":0.25}    
+    Image:
+        source: "greenshield.png"
+        size_hint:  (None, None)
+        size: (dp(250), dp(250))
+        pos_hint: {"center_x":0.5, "center_y":0.54}
+    MDIconButton:
+        icon: "arrow-right"
+        pos_hint: {"center_x":0.9, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'yellow'
+        
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Green Badge'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing Info"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout-variant"
+<YellowBadgeScreen>:
+    name: "yellow"
+    MDLabel:
+        text: "There is a high chance that you were exposed to COVID. Please quarantine for a minimum of 14 days"
+        pos_hint: {"center_x":0.5, "center_y":0.2}
+        halign: "center"
+    Image:
+        source: "yellowshield.png"
+        size_hint:  (None, None)
+        size: (dp(250), dp(250))
+        pos_hint: {"center_x":0.5, "center_y":0.54}
+    MDIconButton:
+        icon: "arrow-right"
+        pos_hint: {"center_x":0.9, "center_y":0.1}
+        on_press:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'red'
+        
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Yellow Badge'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing Info"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout-variant"
+<RedBadgeScreen>:
+    name: "red"
+    MDLabel:
+        text: "You are showing COVID-19 symptoms. Please get tested and contact your primary care provider immediately."
+        pos_hint: {"center_x":0.5, "center_y":0.2}    
+        halign: "center"
+    Image:
+        source: "redshield.png"
+        size_hint:  (None, None)
+        size: (dp(250), dp(250))
+        pos_hint: {"center_x":0.5, "center_y":0.54}
+        
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Red Badge'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Testing Info"
+                            IconLeftWidget:
+                                icon: "web"
+                                on_press: root.manager.current = "info"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout-variant"
+            
+<InfoScreen>:   
+    name: "info" 
+    Image:
+        source: "Medical.png"
+        size_hint_y: None
+        height: 600
+    MDRectangleFlatButton:
+        text: "Stanislaus COVID Response"
+        pos_hint: {"center_x": .5, "center_y": .25}
+        on_release: webbrowser.open("http://schsa.org/coronavirus/")
+    MDRectangleFlatButton:
+        text: "Set Appointment"
+        pos_hint: {"center_x": .5, "center_y": .15}
+        on_release: webbrowser.open("https://www.projectbaseline.com/study/covid-19/eligibility/")  
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation: 'vertical'
+                    MDToolbar:
+                        title: 'Testing Info'
+                        left_action_items: [["dots-vertical", lambda x: nav_drawer.toggle_nav_drawer()]]
+                        elevation:10
+                    
+                    
+                    Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                spacing: "8dp"
+                padding: "8dp"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+                                on_press: root.manager.current = "home"
+                        OneLineIconListItem:
+                            text: "Start Survey"
+                            IconLeftWidget:
+                                icon: "note-text"
+                                on_press: root.manager.current = "Question1"
+                        OneLineIconListItem:
+                            text: "Logout"
+                            IconLeftWidget:
+                                icon: "logout"
