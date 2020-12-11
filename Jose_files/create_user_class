@@ -16,9 +16,8 @@ employeeList = db.UserEmployeeDb  # imports the list of employee users in the ap
 """
 
 If you can't import the above functions you would need the following functions:
-"""
 
-# add a new user to the user database and the manager user database
+# ====== add a new user to the user database and the manager user database ================
 def add_new_manager_user(username, password, email):
 
     new_user = {
@@ -43,7 +42,7 @@ def add_new_employee_user(username, password, email):
     usernameRecords.insert_one(new_user)
     employeeList.insert_one(new_user)
 
-
+# ==========================================================================================
 """
 To properly run this class you need to import the above functions from my_library.
 This class, CreateUser, creates a new user in the database after the user completes their
