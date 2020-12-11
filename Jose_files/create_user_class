@@ -1,9 +1,9 @@
 __author__ = "Jose Lucar Garrido"
 
 from pymongo import MongoClient
-from NewBackEnd.my_library import add_new_employee_user, checkCredentials, add_new_manager_user
+# from my_library import add_new_employee_user, check_credentials, add_new_manager_user
 
-client = MongoClient("mongodb+srv://enter_your_db_username:password@cluster0.jbcth.mongodb.net"
+client = MongoClient("mongodb+srv://jlgarrido:DB2021@cluster0.jbcth.mongodb.net"
                      "/Covid_19_Tracking_App?retryWrites=true&w=majority")
 
 db = client.get_database("Covid_19_Tracking_App")
@@ -14,13 +14,15 @@ managerList = db.UserManagerDb  # imports the list of managers user of the app
 employeeList = db.UserEmployeeDb  # imports the list of employee users in the app
 
 """
-If you can't import the above functions you would need to uncomment the following code:
+
+If you can't import the above functions you would need the following functions:
 """
-"""
-#add a new user to the user database and the manager user database
-def add_new_manager_user(username, password):
+
+# add a new user to the user database and the manager user database
+def add_new_manager_user(username, password, email):
 
     new_user = {
+        "email": email,
         "username": username,
         "password": password,
         "user_manager": True
@@ -28,11 +30,12 @@ def add_new_manager_user(username, password):
     usernameRecords.insert_one(new_user)
     managerList.insert_one(new_user)
 
-#add a new employee user in the the user database and in the employee user database
-#use it only after checkCredentials(username, password)
-def add_new_employee_user(username, password):
+# add a new employee user in the the user database and in the employee user database
+# use it only after check_credentials(username, password)
+def add_new_employee_user(username, password, email):
 
     new_user = {
+        "email" : email,
         "username": username,
         "password": password,
         "user_manager": False
@@ -41,22 +44,7 @@ def add_new_employee_user(username, password):
     employeeList.insert_one(new_user)
 
 
-# check entered credential do not already exist in the database.
-def check_credentials(username,password): #username and password must be a string type before passing
-    checkUsername = usernameRecords.count_documents({'username' : username})
-    checkPassword = usernameRecords.count_documents({'password' : password})
-
-    if checkUsername == 1:
-        print("This username already exist")
-        return True
-    elif checkPassword == 1:
-        print("This password already exist")
-        return True
-    else:
-        return False
-
 """
-""""
 To properly run this class you need to import the above functions from my_library.
 This class, CreateUser, creates a new user in the database after the user completes their
 registration question and click the submit buttom in the registration GUI. 
@@ -66,24 +54,12 @@ specified if the user is a manager when registering a new user this argument sho
 by saving a variable called manager = True before calling this function.
 """
 
-
+# class for creating a new employee user
 class CreateUser:
 
-    def __init__(self, username, password, manager=False):
+    def __init__(self, email, username, password):
+        self.email = email
         self.username = username
         self.password = password
-        self.manager = manager
-        if not check_credentials(self.username, self.password):
-            if self.manager:
-                add_new_manager_user(self.username, self.password)
-                print("account created")
-            else:
-                add_new_employee_user(self.username, self.password)
-                print("account created")
-
-
-"""
-This class create user is also a function in the my_library file and would be added to a bigger
-class called User as a method in case is easier to run the app calling the create user a method of some User class
-for example, self.create_user(username,password,manager = False)
-"""
+        add_new_employee_user(self.username, self.password, self.email)
+        print("account created")
