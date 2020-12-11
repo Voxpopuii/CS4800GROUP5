@@ -1,5 +1,6 @@
 __author__ = "Jose Lucar Garrido"
 
+""" I didn't delete this file because it was presented in the class diagram, but I had to replace it"""
 from pymongo import MongoClient
 #from my_library import credentials_match
 
