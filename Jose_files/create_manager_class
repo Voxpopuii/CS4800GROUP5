@@ -1,0 +1,66 @@
+__author__ = "Jose Lucar Garrido"
+
+from pymongo import MongoClient
+from my_library import add_new_employee_user, add_new_manager_user
+
+client = MongoClient("mongodb+srv://jlgarrido:DB2021@cluster0.jbcth.mongodb.net"
+                     "/Covid_19_Tracking_App?retryWrites=true&w=majority")
+
+db = client.get_database("Covid_19_Tracking_App")
+
+usernameRecords = db.UsersDb  # imports the list of all the users of the app
+passwordRecords = db.UsersDb  # imports the list of all the users of the app
+managerList = db.UserManagerDb  # imports the list of managers user of the app
+employeeList = db.UserEmployeeDb  # imports the list of employee users in the app
+
+"""
+
+If for some reason you can't import the above functions you would need the following functions:
+"""
+"""
+# ======= add a new user to the user database and the manager user database====================
+def add_new_manager_user(username, password, email):
+
+    new_user = {
+        "email": email,
+        "username": username,
+        "password": password,
+        "user_manager": True
+    }
+    usernameRecords.insert_one(new_user)
+    managerList.insert_one(new_user)
+
+# add a new employee user in the the user database and in the employee user database
+# use it only after check_credentials(username, password)
+def add_new_employee_user(username, password, email):
+
+    new_user = {
+        "email" : email,
+        "username": username,
+        "password": password,
+        "user_manager": False
+    }
+    usernameRecords.insert_one(new_user)
+    employeeList.insert_one(new_user)
+"""
+# ================================================================================================
+"""
+To properly run this class you need to import the above functions from my_library.
+This class, CreateUser, creates a new user in the database after the user completes their
+registration question and click the submit buttom in the registration GUI. 
+In addition, the 3 arguments this function takes are: username and password which are strings the user inputs in 
+the input box in the register GUI. the 3rd argument is manager which is a boolean automatically set to False but if 
+specified if the user is a manager when registering a new user this argument should be changed automatically to True
+by saving a variable called manager = True before calling this function.
+"""
+
+#class for creating a new manager user
+class CreateUserManager:
+
+    def __init__(self, email, username, password):
+        self.email = email
+        self.username = username
+        self.password = password
+        add_new_manager_user(self.username, self.password, self.email)
+        print("account created")
+        
