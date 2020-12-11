@@ -1,5 +1,5 @@
 # Author: John Miego
-# Backend Author: JoseLucar
+# Author Backend: JoseLucar
 # Date: 12/2/2020
 # Completed Code for the UI
 # Added navigation to the majority of the screen instances
