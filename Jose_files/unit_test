@@ -1,0 +1,241 @@
+__author__ = "Jose Lucar Garrido"
+"""
+Written by Jose Lucar
+Debugged by Jose Lucar
+
+"""
+
+from my_library import check_credentials
+from my_library import send_badge
+from create_user_class import CreateUser
+from create_manager_class import CreateUserManager
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://jlgarrido:DB2021@cluster0.jbcth.mongodb.net"
+                     "/Covid_19_Tracking_App?retryWrites=true&w=majority")  # My credential for the database.
+
+db = client.get_database("Covid_19_Tracking_App")  # Access to the project database.
+
+usernameRecords = db.UsersDb  # imports the list of all the users of the app
+passwordRecords = db.UsersDb  # imports the list of all the users of the app
+managerList = db.UserManagerDb  # imports the list of managers user of the app
+employeeList = db.UserEmployeeDb  # imports the list of employee users in the app
+healthRecordsList = db.HealthRecordsDb  # imports the list of health records
+rosterRecords = db.ManagerEmployeeRecordDb  # imports the list of health records sent to managers.
+
+
+# ====== delete user in database =================================================================
+"""
+The following are 3 function which deletes the users in the 
+database, so you can add more and be able to visualize. Also take
+into account that there is a OK test at the end of this file
+in charge of successfully return an OK passed message if you
+add 3 users (no lees than 3 and no more than 3)
+"""
+ 
+def delete_users():
+
+    if usernameRecords.count_documents({}) > 0:
+        user_id = list(usernameRecords.find())[0]
+        usernameRecords.delete_one(user_id)
+        delete_users()
+    else:
+        print("UserManagerDb collection empty")
+        return
+
+
+def delete_managers():
+
+    if managerList.count_documents({}) > 0:
+        user_id = list(managerList.find())[0]
+        managerList.delete_one(user_id)
+        delete_managers()
+    else:
+        print("UserManagerDb collection empty")
+        return
+
+
+def delete_employees():
+
+    if employeeList.count_documents({}) > 0:
+        user_id = list(employeeList.find())[0]
+        employeeList.delete_one(user_id)
+        delete_employees()
+    else:
+        print("UserEmployeeDb collection empty")
+        return
+
+
+delete_users()
+delete_managers()
+delete_employees()
+
+
+# ==================== State 1 ========================================================
+"""Add a manager user to database"""
+
+# parameters:
+email_manager = "manager@manager.edu"
+username_manager = "manager"
+password_manager = "password"
+
+# initialize object test_manager:
+test_manager = CreateUserManager(email_manager, username_manager, password_manager)
+
+# print instance attributes of object test_manager:
+print(test_manager.email)
+print(test_manager.username)
+print(test_manager.password)
+
+# get collection data for registered manager in the database and compared if it
+# matches the account information data for object test_manager.
+list_of_managers = managerList.find()
+
+for doc in (list_of_managers):
+    print(doc)
+
+
+"""Add an employee user to database """
+
+# parameters:
+email_employee = "employee@test.edu"
+username_employee = "employee"
+password_employee = "password"
+
+# initialize object test_employee:
+test_employee = CreateUser(email_employee, username_employee, password_employee)
+
+# print instance attributes of object test_employee:
+print(test_employee.email)
+print(test_employee.username)
+print(test_employee.password)
+
+# get collection data for registered employees in the database and compared if it
+# matches the account information data for object test_employee.
+list_of_employees = list(employeeList.find())
+
+for doc in list_of_employees:
+    print(doc)
+
+
+# ================== State 2 ===========================================================
+""" Register is a class that creates an employee user in the database,
+    but this time checks if user exist in the database. 
+    
+    - return message in console if email, username or password already exist in 
+      database """
+
+
+class Register:
+    def __init__(self, email, username, password):
+        self.email = email
+        self.username = username
+        self.password = password
+        if check_credentials(self.username, self.password, self.email):
+            CreateUser(self.email, self.username, self.password)
+            self.current = 'home'
+        else:
+            self.current = 'register'
+
+
+# Try to register the same employee user registered in State 1 by creating a new object:
+test_employee_failed = Register(email_employee, username_employee, password_employee)
+
+# Register a new employee user with valid unique credentials:
+email_employee_2 = "employee@test.edu"
+username_employee_2 = "employee"
+password_employee_2 = "password"
+
+test_employee_2 = Register(email_employee, username_employee, password_employee)
+
+# Get object test_employee_2 instances variable (registration information):
+print(test_employee_2.email)
+print(test_employee_2.username)
+print(test_employee_2.password)
+
+# Get saved registration credential from database of registered employees list
+# for test_employee_2 to compared with the print attributes:
+database_employee_2 = employeeList.find_one({"username": test_employee_2.username})
+
+# If the above comparison match each other, the current state screen of the obejct
+# if object current state is 'register' it failed to add the user to the database.
+# if object current state is 'home' it means you are being redirected to a new screen
+# to login with your new valid credential created.
+
+print(test_employee_2.current)
+
+
+"""Register is a class that creates a manager user in the database,
+    but this time checks if user exist in the database. 
+
+    - return message in console if email, username or password already exist in 
+      database. """
+
+
+class RegisterManager:
+    def __init__(self, email, username, password):
+        self.email = email
+        self.username = username
+        self.password = password
+        if check_credentials(self.username, self.password, self.email):
+            CreateUserManager(self.email, self.username, self.password)
+            self.current = 'home'
+        else:
+            self.current = 'register'
+
+
+# try to register the same manager user registered in State 1 by creating a new object:
+test_manager_failed = RegisterManager(email_manager, username_manager, password_manager)
+
+# Register a new manager user with valid unique credentials:
+email_manager_2 = "manager2@test.edu"
+username_manager_2 = "manager2"
+password_manager_2 = "manager2"
+
+test_manager_2 = Register(email_manager_2, username_manager_2, password_manager_2)
+
+# Get object test_employee_2 instances variable (registration information):
+print(test_manager_2.email)
+print(test_manager_2.username)
+print(test_manager_2.password)
+
+# Get saved registration credential from database of registered employees list
+# for test_employee_2 to compared with the print attributes:
+database_manager_2 = managerList.find_one({"username": test_manager_2.username})
+
+# If the above comparison match each other, the current state screen of the obejct
+# if object current state is 'register' it failed to add the user to the database.
+# if object current state is 'home' it means you are being redirected to a new screen
+# to login with your new valid credential created.
+
+print(test_manager_2.current)
+
+# ==============  Registration recap ===================================================
+""" So far you register 4 users in the database the following code function is an OK test
+    code and it will would return an error if the database has 0 users added. it would
+    also return the collection dictionary with all the users you've added so far. """
+
+
+def ok_registration_test():  # to run this test make sure the database list empty.
+    try:
+        usernameRecords.find()  # make sure database isn't empty
+        users_count = usernameRecords.count_documents({})
+        if users_count == 3:
+            print(users_count)
+            list_users_records = usernameRecords.find()
+            for i in list_users_records:
+                print(i)
+            return "=========== OK Test Passed ==================="
+        else:
+            error_message1 = "It looks like the database has other users\n" \
+                            "make sure you empty the user collection " \
+                            "of the database by running the code found in " \
+                            "line 25-69"
+            return error_message1
+    except AttributeError:
+        error_message2 = "it looks like you didn't add any user to the database \n" \
+                         "You contact Jose Lucar for help at jlucargarrido@csustan.edu"
+        print(error_message2)
+
+
+print(ok_registration_test())
